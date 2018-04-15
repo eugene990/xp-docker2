@@ -1,0 +1,48 @@
+version: '3'
+services:
+    web:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        container_name: ${NGINX_HOST}
+        volumes:
+            - "./www/:/var/www/"
+            - "./etc/php-fpm/php.ini:/etc/php/7.1/fpm/php.ini"
+            - "./etc/php-fpm/php-fpm.conf:/etc/php/7.1/fpm/php-fpm.conf"
+            - "./etc/nginx/${NGINX_CONFIG}.conf:/etc/nginx/conf.d/default.conf"
+            - "./etc/nginx/nginx.conf/:/etc/nginx/nginx.conf/"
+            - "./etc/ssh:/root/.ssh"
+        ports:
+            - "8081:80"
+        depends_on:
+            - db-mysql
+            - memcached
+            - redis
+            - rabbitmq
+
+    db-mysql:
+        container_name: mysql-${NGINX_HOST}
+        image: mysql:5.7
+        volumes:
+          - ./mysql/default.cnf:/etc/mysql/conf.d/default.cnf:ro
+          - ./storage/data/db/mysql:/var/lib/mysql
+          - ./storage/logs/mysql:/var/log/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+          MYSQL_DATABASE: ${MYSQL_DATABASE}
+          MYSQL_USER: ${MYSQL_USER}
+          MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+          - "3307:3306"
+
+    memcached:
+        container_name: memcached-${NGINX_HOST}
+        image: memcached:1.4
+
+    redis:
+      container_name: redis-${NGINX_HOST}
+      image: redis:3.2
+
+    rabbitmq:
+      container_name: rabbitmq-${NGINX_HOST}
+      image: rabbitmq
