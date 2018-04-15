@@ -87,8 +87,8 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/php7.1-fpm.log
 
 RUN rm -f /etc/nginx/sites-enabled/*
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./etc/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /root/.ssh
 RUN chmod 600 /root/.ssh
