@@ -12,6 +12,7 @@ services:
             - "./etc/nginx/${NGINX_CONFIG}.conf:/etc/nginx/conf.d/default.conf"
             - "./etc/nginx/nginx.conf/:/etc/nginx/nginx.conf/"
             - "./etc/ssh:/root/.ssh"
+            - "./etc/git:/root/.gitconfig"
         ports:
             - "8081:80"
         depends_on:

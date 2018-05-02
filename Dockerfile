@@ -26,7 +26,10 @@ RUN apt-get update && \
     libpng12-dev \
     curl \
     bash \
-    openssh-server
+    openssh-server \
+    cron \
+    vim
+
 # exts
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \

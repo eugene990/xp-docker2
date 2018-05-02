@@ -1,5 +1,6 @@
 /bootstrap/compiled.php
 /vendor
+node_modules
 composer.phar
 .DS_Store
 .idea
@@ -20,4 +21,5 @@ nbproject
 _ide_helper.php
 .phpstorm.meta.php
 .php_cs.cache
-/.mage/~working.lock
+
+themes/new_mstar_builder/bower_components/
