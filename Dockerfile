@@ -100,4 +100,8 @@ RUN mkdir -p /run/php && touch /run/php/php7.1-fpm.sock && touch /run/php/php7.1
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 EXPOSE 80
+
+WORKDIR /var/www
+
+
 CMD ["/entrypoint.sh"]
