@@ -69,13 +69,16 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
 
+RUN composer global require "fxp/composer-asset-plugin:^1.4.1"
+
 # Install node.js
-RUN curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+RUN curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
 RUN chmod 777 /nodesource_setup.sh
 RUN /nodesource_setup.sh
 RUN apt-get install -y nodejs
 RUN npm install -g bower
 RUN npm install --global gulp
+RUN npm install -g webpack
 
 # Install mail server
 COPY mailserver.sh /tmp/mailserver.sh
@@ -101,7 +104,10 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 EXPOSE 80
 
-WORKDIR /var/www
+RUN mkdir -p /var/www/log
+RUN mkdir -p /var/www/html
+
+WORKDIR /var/www/html
 
 
 CMD ["/entrypoint.sh"]
