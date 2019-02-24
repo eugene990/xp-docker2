@@ -28,7 +28,8 @@ RUN apt-get update && \
     bash \
     openssh-server \
     cron \
-    vim
+    vim \
+    xz-utils
 
 # exts
 RUN apt-get update && \
@@ -72,15 +73,25 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN composer global require "fxp/composer-asset-plugin:^1.4.1"
 
 # Install node.js
-RUN curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
-RUN chmod 777 /nodesource_setup.sh
-RUN /nodesource_setup.sh
-RUN apt-get install -y nodejs
-RUN npm install -g bower
-RUN npm install --global gulp
-RUN npm install -g webpack
-
+RUN curl -sL https://nodejs.org/dist/v8.9.1/node-v8.9.1-linux-x64.tar.xz -o node-v8.9.1-linux-x64.tar.xz
+RUN tar Jxvf node-v8.9.1-linux-x64.tar.xz
+RUN rm -rf node-v8.9.1-linux-x64.tar.xz
+RUN mkdir /usr/local/lib/nodejs
+RUN mv node-v8.9.1-linux-x64 /usr/local/lib/nodejs/node-v8.9.1-linux-x64
+RUN touch /root/.profile
+RUN echo "export NODEJS_HOME=/usr/local/lib/nodejs/node-v8.9.1-linux-x64/bin" >> /root/.profile
+RUN echo "export PATH=$NODEJS_HOME:$PATH" >> /root/.profile
+RUN . /root/.profile
+#RUN chmod 777 /nodesource_setup.sh
+#RUN /nodesource_setup.sh
+#RUN apt-get install -y nodejs
+#RUN npm install -g bower
+#RUN npm install --global gulp
+#RUN npm install -g webpack
+#RUN npm install -g pm2
+#RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 # Install mail server
+
 COPY mailserver.sh /tmp/mailserver.sh
 RUN /tmp/mailserver.sh
 
