@@ -1,9 +1,7 @@
 version: '3'
 services:
     web:
-        build:
-            context: .
-            dockerfile: ./Dockerfile
+        image: eugene990/bbp_dev
         container_name: ${NGINX_HOST}
         volumes:
             - "./www/:/var/www/html"
@@ -46,6 +44,7 @@ services:
       container_name: redis-${NGINX_HOST}
       image: redis:3.2
       restart: always
+      entrypoint: redis-server --appendonly yes
       volumes:
         - ./storage/data/db/redis:/data
       ports:
